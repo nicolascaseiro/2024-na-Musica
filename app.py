@@ -63,7 +63,7 @@ total_musicas_filtradas = df_tabela['Música'].nunique()
 st.title("Dashboard 2024 na Música")
 
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("Total de músicas", total_musicas_filtradas)
+col1.metric("Total de Músicas", total_musicas_filtradas)
 col2.metric("Média Popularidade", f"{df_filtrado['Popularidade'].mean():.2f}")
 col3.metric("Total de Artistas", df_filtrado['Artistas_lista'].nunique())
 col4.metric("Total de Gêneros", df_filtrado['Gêneros_lista'].nunique())
