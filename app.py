@@ -58,8 +58,8 @@ st.title("Dashboard 2024 na Música")
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Total de músicas", total_musicas)
 col2.metric("Média Popularidade", f"{df_filtrado['Popularidade'].mean():.2f}")
-col3.metric("Artistas únicos", df_filtrado['Artistas_lista'].nunique())
-col4.metric("Gêneros únicos", df_filtrado['Gêneros_lista'].nunique())
+col3.metric("Total de Artistas", df_filtrado['Artistas_lista'].nunique())
+col4.metric("Total de Gêneros", df_filtrado['Gêneros_lista'].nunique())
 
 st.markdown("---")
 
