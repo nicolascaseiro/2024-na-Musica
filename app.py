@@ -4,13 +4,11 @@ import plotly.express as px
 
 df = pd.read_csv("https://raw.githubusercontent.com/nicolascaseiro/2024-na-Musica/refs/heads/main/2024%20na%20M%C3%BAsica.csv", encoding='utf-8')
 
-# Explode os gêneros em lista
 df['Gêneros_lista'] = df['Gêneros'].dropna().apply(lambda x: [g.strip() for g in x.split(',')])
 df_exploded = df.explode('Gêneros_lista')
 
 st.title("Dashboard de Músicas")
 
-# Pegue os filtros disponíveis
 generos = sorted(df_exploded['Gêneros_lista'].dropna().unique())
 artistas = sorted(df['Artista'].dropna().unique())
 
