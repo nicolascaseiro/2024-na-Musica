@@ -12,8 +12,6 @@ def carregar_dados():
 
 df = carregar_dados()
 
-total_musicas = df['Música'].nunique()
-
 generos_lista = df['Gêneros'].dropna().apply(lambda x: [g.strip() for g in x.split(',')])
 artistas_lista = df['Artista'].dropna().apply(lambda x: [a.strip() for a in x.split(',')])
 
@@ -34,7 +32,10 @@ df_temp['Mês'] = df_temp['Data do Álbum'].dt.month.apply(lambda x: meses_pt[x-
 
 st.sidebar.header("Filtros")
 
-meses_disponiveis = sorted(df_temp['Mês'].dropna().unique())
+def ordenar_meses(meses_selecionados):
+    return sorted(meses_selecionados, key=lambda m: meses_pt.index(m))
+
+meses_disponiveis = ordenar_meses(df_temp['Mês'].dropna().unique())
 generos_disponiveis = sorted(df_temp['Gêneros_lista'].dropna().unique())
 artistas_disponiveis = sorted(df_temp['Artistas_lista'].dropna().unique())
 
@@ -53,10 +54,16 @@ if genero_selecionado:
 if artista_selecionado:
     df_filtrado = df_filtrado[df_filtrado['Artistas_lista'].isin(artista_selecionado)]
 
+indices_filtrados = df_filtrado.index.unique()
+df_tabela = df.loc[indices_filtrados].copy()
+df_tabela['Data do Álbum'] = pd.to_datetime(df_tabela['Data do Álbum'], errors='coerce')
+df_tabela['Mês'] = df_tabela['Data do Álbum'].dt.month.apply(lambda x: meses_pt[x-1] if pd.notna(x) else None)
+total_musicas_filtradas = df_tabela['Música'].nunique()
+
 st.title("Dashboard 2024 na Música")
 
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("Total de músicas", total_musicas)
+col1.metric("Total de músicas", total_musicas_filtradas)
 col2.metric("Média Popularidade", f"{df_filtrado['Popularidade'].mean():.2f}")
 col3.metric("Total de Artistas", df_filtrado['Artistas_lista'].nunique())
 col4.metric("Total de Gêneros", df_filtrado['Gêneros_lista'].nunique())
@@ -92,11 +99,4 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown("---")
 
 colunas_exibir = ['Música', 'Artista', 'Gêneros', 'Popularidade', 'Mês']
-
-indices_filtrados = df_filtrado.index.unique()
-df_tabela = df.loc[indices_filtrados].copy()
-
-df_tabela['Data do Álbum'] = pd.to_datetime(df_tabela['Data do Álbum'], errors='coerce')
-df_tabela['Mês'] = df_tabela['Data do Álbum'].dt.month.apply(lambda x: meses_pt[x-1] if pd.notna(x) else None)
-
 st.dataframe(df_tabela[colunas_exibir])
