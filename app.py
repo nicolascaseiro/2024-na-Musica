@@ -92,4 +92,11 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown("---")
 
 colunas_exibir = ['Música', 'Artista', 'Gêneros', 'Popularidade', 'Mês']
-st.dataframe(df_filtrado[colunas_exibir])
+
+indices_filtrados = df_filtrado.index.unique()
+df_tabela = df.loc[indices_filtrados].copy()
+
+df_tabela['Data do Álbum'] = pd.to_datetime(df_tabela['Data do Álbum'], errors='coerce')
+df_tabela['Mês'] = df_tabela['Data do Álbum'].dt.month.apply(lambda x: meses_pt[x-1] if pd.notna(x) else None)
+
+st.dataframe(df_tabela[colunas_exibir])
