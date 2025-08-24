@@ -34,7 +34,7 @@ df_temp['Mês'] = df_temp['Data do Álbum'].dt.month.apply(lambda x: meses_pt[x-
 
 st.sidebar.header("Filtros")
 
-meses_disponiveis = sorted(df_temp['Mês'].dropna().unique())
+meses_disponiveis = [m for m in meses_pt if m in df_temp['Mês'].dropna().unique()]
 generos_disponiveis = sorted(df_temp['Gêneros_lista'].dropna().unique())
 artistas_disponiveis = sorted(df_temp['Artistas_lista'].dropna().unique())
 
