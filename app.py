@@ -4,7 +4,6 @@ import plotly.express as px
 
 st.set_page_config(page_title="Dashboard 2024 na Música", layout="wide")
 
-@st.cache_data
 def carregar_dados():
     url = "https://raw.githubusercontent.com/nicolascaseiro/2024-na-Musica/refs/heads/main/2024%20na%20M%C3%BAsica.csv"
     df = pd.read_csv(url, encoding='utf-8')
