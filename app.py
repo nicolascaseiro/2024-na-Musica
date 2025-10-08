@@ -94,7 +94,7 @@ fig.update_layout(
     margin=dict(l=40, r=40, t=80, b=100)
 )
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True, config={"responsive": True})
 
 st.markdown("---")
 
